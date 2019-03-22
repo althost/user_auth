@@ -1,0 +1,6 @@
+---
+users:
+  - name: john
+    comment: "Doe, the famous"
+    auth:
+      - some-vm
