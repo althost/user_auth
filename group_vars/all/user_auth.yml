@@ -1,6 +1,38 @@
+# TODO test[1-10] should be resolvable domain names
 ---
 users:
   - name: john
     comment: "Doe, the famous"
-    auth:
-      - some-vm
+    allowed:
+      - all
+  
+  - name: joe
+    comment: "Black, do you know him"
+    sudo: yes
+    allowed:
+      - test1
+      - test2
+  
+  - name: mr
+    comment: "Mr.X"
+#   allowed none?
+  
+  - name: mrs
+    comment: "Mrs. User"
+    shell: yes
+    allowed:
+      - test2
+      - test3
+  
+  - name: monsieur
+    comment: "Mr. Francois"
+    allowed:
+      - test4
+      - test8
+  
+  - name: madamme
+    comment: "Mmme. Francesca"
+    allowed:
+      - test5
+      - test6
+      - test7

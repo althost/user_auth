@@ -1,16 +1,28 @@
 ---
 
-- name: ensure sudo is present
+- name: sudo package required
   tags: apt
   apt: name=sudo state=present
 
-- name: Make sure we have a 'sudo' group
+- name: create 'sudo' group
   group: name=sudo state=present
 
-- name: Allow 'sudo' group to have passwordless sudo
+- name: passwordless sudo for group
   lineinfile:
     dest: /etc/sudoers
     state: present
     regexp: '^%sudo'
     line: '%sudo ALL=(ALL) NOPASSWD: ALL'
 
+- name: user creation at hosts
+  user:
+    name: "{{ item.0.name }}"
+    comment: "{{ item.0.comment }}"
+    state: present
+    shell: "{{ item.0.shell | default('/bin/bash') }}"
+  with_subelements:
+    - "{{ users }}"
+    # second loop
+    - allowed
+    - skip_missing: true
+  when: item.1 == inventory_hostname or item.1 == "all"
