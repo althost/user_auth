@@ -26,3 +26,13 @@
     - allowed
     - skip_missing: true
   when: item.1 == inventory_hostname or item.1 == "all"
+  
+- name: user ssh public keys
+  authorized_key: user="{{ item.0.name }}"
+                  key="{{ lookup('file', 'ssh/'+item.0.name+'.pub') }}"
+                  state=present
+  with_subelements:
+    - "{{ users }}"
+    - allowed
+    - skip_missing: true
+  when: item.1 == inventory_hostname or item.1 == "all"
