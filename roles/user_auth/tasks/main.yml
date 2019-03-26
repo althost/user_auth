@@ -7,7 +7,7 @@
 - name: create 'sudo' group
   group: name=sudo state=present
 
-- name: passwordless sudo for group
+- name: allow passwordless sudo for group
   lineinfile:
     dest: /etc/sudoers
     state: present
@@ -19,15 +19,14 @@
     name: "{{ item.0.name }}"
     comment: "{{ item.0.comment }}"
     state: present
-    shell: "{{ item.0.shell | default('/bin/bash') }}"
+    shell: "{{ item.0.shell | default('/bin/bash') }}" # TODO by default, no shell
   with_subelements:
     - "{{ users }}"
-    # second loop
     - allowed
     - skip_missing: true
   when: item.1 == inventory_hostname or item.1 == "all"
   
-- name: user ssh public keys
+- name: populate user ssh public keys
   authorized_key: user="{{ item.0.name }}"
                   key="{{ lookup('file', 'ssh/'+item.0.name+'.pub') }}"
                   state=present
@@ -36,3 +35,15 @@
     - allowed
     - skip_missing: true
   when: item.1 == inventory_hostname or item.1 == "all"
+
+- name: add users to sudo group
+  user:
+    name: "{{ item.0.name }}"
+    state: present
+    groups: sudo
+    append: yes
+  with_subelements:
+    - "{{ users }}"
+    - allowed
+    - skip_missing: true
+  when: ( item.1 == inventory_hostname or item.1 == "all" ) and item.0.sudo

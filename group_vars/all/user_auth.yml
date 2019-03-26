@@ -15,7 +15,7 @@ users:
   
   - name: mr
     comment: "Mr.X"
-#   allowed none?
+#   allowed none? TODO
   
   - name: mrs
     comment: "Mrs. User"
@@ -26,12 +26,14 @@ users:
   
   - name: monsieur
     comment: "Mr. Francois"
+#   shell: git TODO
     allowed:
       - test4
       - test8
   
   - name: madamme
     comment: "Mmme. Francesca"
+#   shell: ftp TODO
     allowed:
       - test5
       - test6
