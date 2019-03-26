@@ -19,7 +19,8 @@
     name: "{{ item.0.name }}"
     comment: "{{ item.0.comment }}"
     state: present
-    shell: "{{ item.0.shell | default('/bin/bash') }}" # TODO by default, no shell
+    shell: "{% if item.0.sudo or item.0.shell %} item.0.shell | default('/bin/bash') {% else %} '/bin/zero' {% endif %}"
+    # by default, no shell. unless specified, or sudo, then bash by default.
   with_subelements:
     - "{{ users }}"
     - allowed
