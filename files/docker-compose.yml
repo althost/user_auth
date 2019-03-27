@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+
+  "1":
+    image: testhost
+      
+  "2":
+    image: testhost
+
+  "3":
+    image: testhost
+
+  "4":
+    image: testhost
+
+  "5":
+    image: testhost
+
+  "6":
+    image: testhost
+
+  "7":
+    image: testhost
+
+  "8":
+    image: testhost
+
+  "9":
+    image: testhost
+
+  "10":
+    image: testhost
+      
+networks:
+  free:

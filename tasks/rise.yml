@@ -1,0 +1,22 @@
+# 
+---
+- name: deploy test hosts to local
+  hosts: localhost
+  connection: local
+  tasks:
+  
+    - name: pull slim linux image
+      docker_image:
+        name: gliderlabs/alpine:latest
+        state: present
+    
+    - name: build the test image with ssh and bash
+      docker_image:
+        name: testhost
+        path: ../files
+        state: present
+        force: yes
+
+    - name: deploy ten hosts for this exercise
+      command: "docker-compose -f ../files/docker-compose.yml -p multiuser up"
+    
