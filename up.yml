@@ -1,0 +1,6 @@
+# 
+---
+- name: deploy authentication strategy to hosts
+  hosts: all
+  roles:
+    - user_auth
