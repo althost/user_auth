@@ -8,6 +8,9 @@ RUN apk add --no-cache bash openssh
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
+# delete default empty password to unlock root
+RUN passwd -d root
+
 # setup root ssh access
 COPY ssh/sysadmin.pub /root/.ssh/authorized_keys
 
