@@ -3,33 +3,53 @@ services:
 
   "1":
     image: testhost
+    networks:
+      - free
       
   "2":
     image: testhost
+    networks:
+      - free
 
   "3":
     image: testhost
-
+    networks:
+      - free
+      
   "4":
     image: testhost
-
+    networks:
+      - free
+      
   "5":
     image: testhost
-
+    networks:
+      - free
+      
   "6":
     image: testhost
-
+    networks:
+      - free
+      
   "7":
     image: testhost
-
+    networks:
+      - free
+      
   "8":
     image: testhost
-
+    networks:
+      - free
+      
   "9":
     image: testhost
-
+    networks:
+      - free
+      
   "10":
     image: testhost
+    networks:
+      - free
       
 networks:
   free:
