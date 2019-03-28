@@ -1,5 +1,8 @@
+# rise up test evironment
 # ansible-playbook tasks/rise.yml
 # optionally you can --skip-tags=installation
+# to turn it down:
+# docker-compose -f files/docker-compose.yml -p multiuser down
 ---
 - name: deploy test hosts to local
   hosts: localhost
@@ -42,6 +45,12 @@
   
   # SET UP THIS EXERCISE
   
+    - name: link your key as sysadmin
+      file:
+        src: "{{ sysadmin }}.pub"
+        dest: ../files/ssh/sysadmin.pub
+        state: link
+
     - name: pull slim linux image
       docker_image:
         name: gliderlabs/alpine:latest
@@ -61,25 +70,16 @@
         project_name: multiuser
       register: output
 
-    - name: ensure hosts file exists
-      file:
-        path: ../hosts.test
-        state: touch
+    - name: ensure hosts file exists and is empty
+      copy:
+        content: ""
+        dest: ../hosts.test
 
     - name: generate a hosts file with the desired hostnames and assigned IPs of the test environment
       lineinfile:
         path: ../hosts.test
-        line: "multiuser_{{ hostn }}_1  ansible_host={{ output.ansible_facts[hostn].values()[0].networks.multiuser_default.IPAddress }}"
+        line: "multiuser_{{ hostn }}_1  ansible_host={{ output.ansible_facts[hostn].values()[0].networks.multiuser_free.IPAddress }}"
         state: present
       with_items: "{{ output.ansible_facts }}"
       loop_control:
         loop_var: hostn
-
-    - name: populate root authorized_keys
-      docker_container:
-        name: "multiuser_{{ hostn }}_1"
-        volumes: "../files/ssh/{{ sysadmin }}.pub:/root/.ssh/authorized_keys" 
-      loop: "{{ range(1, 10) | list }}"
-      loop_control:
-        loop_var: hostn
-
