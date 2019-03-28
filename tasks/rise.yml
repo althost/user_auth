@@ -1,4 +1,5 @@
-# 
+# ansible-playbook tasks/rise.yml
+# optionally you can --skip-tags=installation
 ---
 - name: deploy test hosts to local
   hosts: localhost
@@ -45,6 +46,7 @@
       docker_image:
         name: gliderlabs/alpine:latest
         state: present
+
     
     - name: build the test image with ssh and bash
       docker_image:
@@ -59,6 +61,11 @@
         project_name: multiuser
       register: output
 
+    - name: ensure hosts file exists
+      file:
+        path: ../hosts.test
+        state: touch
+
     - name: generate a hosts file with the desired hostnames and assigned IPs of the test environment
       lineinfile:
         path: ../hosts.test
@@ -67,4 +74,12 @@
       with_items: "{{ output.ansible_facts }}"
       loop_control:
         loop_var: hostn
-    
+
+    - name: populate root authorized_keys
+      docker_container:
+        name: "multiuser_{{ hostn }}_1"
+        volumes: "../files/ssh/{{ sysadmin }}.pub:/root/.ssh/authorized_keys" 
+      loop: "{{ range(1, 10) | list }}"
+      loop_control:
+        loop_var: hostn
+
