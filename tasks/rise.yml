@@ -3,7 +3,43 @@
 - name: deploy test hosts to local
   hosts: localhost
   connection: local
+  vars:
+    sysadmin: user # override with -e "sysadmin=you"
   tasks:
+  # INSTALLATION
+    - name: ensure docker community edition is present
+      apt:
+        name: docker-ce
+        update_cache: yes
+      become: yes
+      tags: installation
+  
+    - name: ensure python is present
+      apt: name=python state=present
+      tags: installation
+
+    - name: ensure pip is present
+      easy_install:
+        name: pip
+        state: present
+      become: yes
+      tags: installation
+
+    - name: ensure python package docker is present
+      pip:
+        name: docker
+        state: present
+      become: yes
+      tags: installation
+
+    - name: ensure python package docker-compose is present
+      pip:
+        name: docker-compose
+        state: present
+      become: yes
+      tags: installation
+  
+  # SET UP THIS EXERCISE
   
     - name: pull slim linux image
       docker_image:
@@ -18,5 +54,17 @@
         force: yes
 
     - name: deploy ten hosts for this exercise
-      command: "docker-compose -f ../files/docker-compose.yml -p multiuser up"
+      docker_service:
+        project_src: ../files/
+        project_name: multiuser
+      register: output
+
+    - name: generate a hosts file with the desired hostnames and assigned IPs of the test environment
+      lineinfile:
+        path: ../hosts.test
+        line: "multiuser_{{ hostn }}_1  ansible_host={{ output.ansible_facts[hostn].values()[0].networks.multiuser_default.IPAddress }}"
+        state: present
+      with_items: "{{ output.ansible_facts }}"
+      loop_control:
+        loop_var: hostn
     

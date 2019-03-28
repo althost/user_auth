@@ -1,4 +1,3 @@
-# TODO test[1-10] should be resolvable domain names
 ---
 users:
   - name: john
@@ -6,35 +5,34 @@ users:
     allowed:
       - all
   
-  - name: joe
-    comment: "Black, do you know him"
+  - name: joey
+    comment: "Black, do you know her?"
     sudo: yes
     allowed:
-      - test1
-      - test2
+      - multiuser_1_1
+      - multiuser_2_1
   
   - name: mr
     comment: "Mr.X"
-#   allowed none? TODO
+#   allowed none?
   
   - name: mrs
     comment: "Mrs. User"
     shell: yes
     allowed:
-      - test2
-      - test3
+      - multiuser_2_1
+      - multiuser_3_1
   
   - name: monsieur
     comment: "Mr. Francois"
 #   shell: git TODO
     allowed:
-      - test4
-      - test8
+      - multiuser_4_1
+      - multiuser_8_1
   
   - name: madamme
     comment: "Mmme. Francesca"
-#   shell: ftp TODO
     allowed:
-      - test5
-      - test6
-      - test7
+      - multiuser_5_1
+      - multiuser_6_1
+      - multiuser_7_1
