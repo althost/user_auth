@@ -18,6 +18,7 @@
     name: "{{ item.0.name }}"
     comment: "{{ item.0.comment }}"
     state: present
+    password: '*'
     shell: "{% if item.0.sudo is defined and item.0.sudo is sameas true %}{{ item.0.shell | default('/bin/bash', true) }}{% elif item.0.shell is defined %}{% if item.0.shell is string %}{{ item.0.shell | default('/bin/bash') }}{% elif item.0.shell is sameas true %}/bin/bash{% endif %}{% endif %}"
   with_subelements:
     - "{{ users }}"

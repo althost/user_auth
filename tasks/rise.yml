@@ -57,7 +57,7 @@
         state: present
 
     
-    - name: build the test image with ssh and bash
+    - name: build the test image with the required libraries
       docker_image:
         name: testhost
         path: ../files

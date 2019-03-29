@@ -1,12 +1,12 @@
 ---
 users:
   - name: john
-    comment: "Doe, the famous"
+    comment: "Doe the famous"
     allowed:
       - all
   
   - name: joe
-    comment: "Black, do you know her?"
+    comment: "Black do you know her"
     sudo: yes
     allowed:
       - multiuser_1_1
