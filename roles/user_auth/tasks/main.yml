@@ -1,8 +1,7 @@
 ---
 
 - name: sudo package required
-  tags: apt
-  apt: name=sudo state=present
+  apk: name=sudo state=present
 
 - name: create 'sudo' group
   group: name=sudo state=present
@@ -19,8 +18,8 @@
     name: "{{ item.0.name }}"
     comment: "{{ item.0.comment }}"
     state: present
-    shell: "{% if item.0.sudo or item.0.shell %} item.0.shell | default('/bin/bash') {% else %} '/bin/zero' {% endif %}"
-    # by default, no shell. unless specified, or sudo, then bash by default.
+    shell: "{% if item.0.sudo is defined or item.0.shell is defined %}{{item.0.shell|default(/bin/bash)}}{% endif %}"
+    # by default, no shell. unless specified, or sudo, then bash by default. TODO wrong shells..
   with_subelements:
     - "{{ users }}"
     - allowed
