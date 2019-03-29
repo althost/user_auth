@@ -14,7 +14,6 @@ users:
   
   - name: mr
     comment: "Mr.X"
-#   allowed none?
   
   - name: mrs
     comment: "Mrs. User"
@@ -25,7 +24,7 @@ users:
   
   - name: monsieur
     comment: "Mr. Francois"
-#   shell: git TODO
+    shell: no
     allowed:
       - multiuser_4_1
       - multiuser_8_1
