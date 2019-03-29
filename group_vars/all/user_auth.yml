@@ -5,7 +5,7 @@ users:
     allowed:
       - all
   
-  - name: joey
+  - name: joe
     comment: "Black, do you know her?"
     sudo: yes
     allowed:
