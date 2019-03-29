@@ -2,7 +2,7 @@ FROM alpine:latest
 MAINTAINER R. Soto "https://numerica.cl"
 
 # install packages
-RUN apk add --no-cache bash openssh
+RUN apk add --no-cache bash openssh python shadow
 
 # define main process
 COPY entrypoint.sh /
