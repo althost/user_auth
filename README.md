@@ -1,3 +1,7 @@
+# ROL ANSIBLE DE AUTENTIFICACION DE USUARIXS UNIX EN N SERVIDORES
+
+Para más información visita el repositorio 
+
 ## REQUERIMIENTOS
 
 Esta solución se basa en el software de automatización de despliegue Ansible.
@@ -49,7 +53,7 @@ Es un TODO
 
 ---
 
-## ENTORNO DE TEST
+## LEVANTAR ENTORNO DE DESARROLLO
 
 Para probarlo, escribí *tasks/rise.yml* un procedimiento que prepara el entorno y levanta un ambiente de test, con diez servidoras capaces de SSH en una red local.
 
@@ -80,7 +84,7 @@ Este archivo de hosts es local y es válido solo para este ejercicio, en la real
 
 ---
 
-## CREAR USUARIXS
+## ADMINISTRAR USUARIXS
 
 La primera vez, la persona administradora de sistemas ejecutará el procedimiento *auth.yml*, entonces se crearán los demás usuarixs de la lista, los cuales a su vez podrán crear a otrxs si es que tienen el privilegio sudo.
 
@@ -127,11 +131,19 @@ $ ansible-playbook -D auth.yml
 
 ### Eliminar un usuarix
 
+Para eliminar un usuarix si que se requiere un procedimiento particular. Este se encuentra en _tasks/rm.yml_ y se debe invocar con un parámetro extro *username*
+
+$ ansible-playbook tasks/rm.yml -e "username=monsieur"
+
+Simplemente itera por los hosts eliminando el usuarix.
+
+Luego, necesitaremos borrarlo manualmente del archivo _users\_auth.yml_ para que no se vuelva a crear la próxima vez que se ejecute.
+
 ---
 
 ## Grupos de Hosts
 
-Una funcionalidad del archivo de hosts de Ansible es que se pueden definir grupos de Hosts entre corchetes []
+Una funcionalidad del archivo de hosts (hosts.test) de Ansible es que se pueden definir grupos de Hosts entre corchetes []
 
     [concepcion]
     numerica.cl
@@ -140,5 +152,7 @@ Una funcionalidad del archivo de hosts de Ansible es que se pueden definir grupo
     [temuco]
     mail.numerica.cl
 
-Para hacer uso de ella, hay que emplear la estructura de archivos de variables de hosts *group_vars*
-Ya vimos que 
+Para hacer uso de esto, dentro de la carpeta _group\_vars_ se utilizan subdirectorios con el nombre del grupo.
+Entonces si ponemos un archivo _users\_auth.yml_ en *group_vars/concepcion/all* crearíamos usuarixs solamente en los hosts de ese grupo.
+Este nos permite enfrentar casos más complejos, en que queramos dar privilegios de sudo en algunxs servidores y otros no, por ejemplo.
+

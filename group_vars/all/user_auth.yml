@@ -1,8 +1,11 @@
+# valid domain name servers for this exercise are multiuser_[1-10]_1
 ---
 users:
   
+# ADMINS
   - name: john
     comment: "Doe the famous"
+    sudo: yes
     allowed:
       - all
   
@@ -10,28 +13,40 @@ users:
     comment: "Black do you know her"
     sudo: yes
     allowed:
-      - multiuser_1_1
-      - multiuser_2_1
+      - all
   
   - name: mr
     comment: "Mr.X"
-  
+    sudo: yes
+    allowed:
+      - all
+
+# SHELLED  
   - name: mrs
     comment: "Mrs. User"
     shell: yes
     allowed:
+      - multiuser_1_1
       - multiuser_2_1
       - multiuser_3_1
+      - multiuser_4_1
+      - multiuser_5_1
   
   - name: monsieur
     comment: "Mr. Francois"
-    shell: no
+    shell: '/bin/sh'
     allowed:
+      - multiuser_1_1
+      - multiuser_2_1
+      - multiuser_3_1
       - multiuser_4_1
-      - multiuser_8_1
+      - multiuser_5_1
+
+# NORMAL
   
   - name: madamme
-    comment: "Mmme. Francesca"
+    comment: "Mmme. Gitter"
+#   shell: /usr/bin/git-shell
     allowed:
       - multiuser_5_1
       - multiuser_6_1
@@ -45,13 +60,11 @@ users:
 
   - name: shuk
     comment: "uno"
-    sudo: yes
     allowed:
       - multiuser_1_1
   
   - name: ishkay
     comment: "dos"
-#    sudo: yes
     allowed:
       - multiuser_2_1
   
