@@ -1,5 +1,6 @@
 ---
 users:
+  
   - name: john
     comment: "Doe the famous"
     allowed:
@@ -35,3 +36,52 @@ users:
       - multiuser_5_1
       - multiuser_6_1
       - multiuser_7_1
+
+  - name: lgtbiq
+    comment: "LGTBIQplus"
+    allowed:
+      - multiuser_1_1
+      - multiuser_2_1
+
+  - name: shuk
+    comment: "uno"
+    sudo: yes
+    allowed:
+      - multiuser_1_1
+  
+  - name: ishkay
+    comment: "dos"
+#    sudo: yes
+    allowed:
+      - multiuser_2_1
+  
+  - name: kimsa
+    comment: "tres"
+    allowed:
+      - miltiuser_3_1
+  
+  - name: chusku
+    comment: "cuatro"
+    allowed:
+      - multiuser_4_1
+  
+  - name: pichka
+    comment: "cinco"
+    allowed:
+      - multiuser_5_1
+  
+  - name: sukta
+    comment: "seis"
+    allowed:
+      - multiuser_6_1
+  
+  - name: kanchis
+    comment: "siete"
+    allowed:
+      - miltiuser_7_1
+  
+  - name: pusak
+    comment: "ocho"
+    allowed:
+      - multiuser_8_1
+
