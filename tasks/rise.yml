@@ -1,8 +1,7 @@
 # rise up test evironment
 # ansible-playbook tasks/rise.yml
 # optionally you can --skip-tags=installation
-# to turn it down:
-# docker-compose -f files/docker-compose.yml -p multiuser down
+# to turn it down: docker-compose -f files/docker-compose.yml -p multiuser down
 ---
 - name: deploy test hosts to local
   hosts: localhost
