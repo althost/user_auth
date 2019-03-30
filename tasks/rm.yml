@@ -1,0 +1,16 @@
+# ansible-playbook tasks/rm.yml -e "username=monsieur" 
+---
+- name: remove a user from all hosts
+  hosts: all
+  connection: local
+  tasks:
+  
+    - include_tasks: "../roles/user_auth/tasks/rm.yml"
+#      with_items: "{{ users }}"
+#      when: item.name == username
+#      ###
+#        with_subelements:
+##          - "{{ users }}"
+#          - allowed
+#          - skip_missing: true
+#        when: item.1 == inventory_hostname or item.1 == "all"

@@ -7,7 +7,7 @@ Ansible lo que hace es conectarse por SSH a los hosts y ejecutar estas instrucci
 Se puede instalar fácilmente por *pip* como paquete python
 $ pip install ansible
 
-Las demás dependencias las instalará automáricamente, como parte del procedimiento que levanta el entorno de test.
+Las demás dependencias las instalará automáticamente, como parte del procedimiento que levanta el entorno de test.
 
 ---
 
@@ -44,7 +44,8 @@ Con ésto se puede emular, de forma simple, los tres grupos de usuario propuesto
 - Shell: usuarix con acceso a consola
 - Admin: usuarix con privilegio de sudo. en este caso si tendrá consola, la cual por defecto será bash.
 
-(Más adelante, se podrían definir esquemas más complejos mediante el uso de grupos de usuarixs Unix.)
+Más adelante, se podrían definir esquemas más complejos mediante el uso de grupos de usuarixs Unix.
+Es un TODO
 
 ---
 
@@ -85,12 +86,14 @@ La primera vez, la persona administradora de sistemas ejecutará el procedimient
 
 $ ansible-playbook auth.yml
 
-La idea es que una organización mantenga un archivo como _user_auth.yml_ por medio de un sistema de control de versiones como *Git*.
+Para cada usuarix, es necesario que su llave pública de SSH esté copiada en el directorio files/ssh con su nombre de usuario y la extensión .pub *files/ssh/user.pub*
 
-### Crear un nuevo usuarix
+La idea es que una organización mantenga el archivo _user_auth.yml_ junto con la carpeta _files/ssh_ por medio de un sistema de control de versiones como *Git*.
+
+### Crear un nuevx usuarix
 
 La arquitectura de un rol ansible con un archivo de configuración (_user_auth.yml_), permite tener un solo comando a ejecutar para todo.
-Es decir que para crear un nuevo usuarix, basta con añadirlo a la lista y volver a ejecutar el procedimiento *auth.yml*
+Es decir que para crear una nueva persona usuaria, basta con añadirlo a la lista y volver a ejecutar el procedimiento *auth.yml*
 
   - name: lgtbiq
     comment: "LGTBIQplus"
@@ -101,8 +104,41 @@ Es decir que para crear un nuevo usuarix, basta con añadirlo a la lista y volve
 $ ansible-playbook auth.yml
 
 Ansible trabaja de manera idempotente, por lo que repasará todas las demás configuraciones, y además agregará a la nueva persona usuaria.
-Es buena práctica ejecutar regularmente este tipo de procedimientos una vez al día con un cron.
 
-__________________________________
-	Esto se configura en el archivo ansible.cfg, donde además se especifica que ansible utilizará el usuario root, y que relaje el checkeo de las huellas SSH, que cambiarán.
+### Cambiar privilegios de un usuarix
 
+Así mismo, para cambiar los privilegios de una persona usuarix, basta con editar el item correspondiente en la lista
+
+  - name: shuk
+    comment: "uno"
+    sudo: yes
+    allowed:
+      - multiuser_1_1
+
+En este caso le hemos agregado la propiedad sudo, por lo cual este usuarix será un sudoer en las máquinas listadas en _allowed_
+
+Para que esto sea efectivo, el comando a ejecutar es el mismo procedimiento *auth.yml*
+
+$ ansible-playbook -D auth.yml
+
+(En este caso le hemos agregado la opcion -D para que muestre un diff de los cambios que realiza)
+
+#TODO degradar priviegios no funciona
+
+### Eliminar un usuarix
+
+---
+
+## Grupos de Hosts
+
+Una funcionalidad del archivo de hosts de Ansible es que se pueden definir grupos de Hosts entre corchetes []
+
+    [concepcion]
+    numerica.cl
+    nube.numerica.cl
+    
+    [temuco]
+    mail.numerica.cl
+
+Para hacer uso de ella, hay que emplear la estructura de archivos de variables de hosts *group_vars*
+Ya vimos que 
