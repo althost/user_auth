@@ -23,6 +23,22 @@ Las demás dependencias las instalará automáticamente, como parte del procedim
 
 En este esquema de administracion de sesiones de usuarixs Unix, la clave es la lista de usuarixs (_users_) definida en el archivo [*group_vars/all/user_auth.yml*](group_vars/all/user_auth.yml). 
 
+```YAML
+---
+users:
+    - name: john
+    comment: "Doe the famous"
+    allowed:
+      - all
+  
+  - name: joe
+    comment: "Black do you know her"
+    sudo: yes
+    allowed:
+      - multiuser_1_1
+      - multiuser_2_1
+```
+
 Luego, basta con ejecutar el procedimiento [*auth.yml*](auth.yml) para que despliegue automáticamente a los hosts las configuraciones allí definidas.
 
 ``` bash
@@ -146,15 +162,9 @@ Así mismo, para cambiar los privilegios de una persona usuarix, basta con edita
       - multiuser_1_1
 ```
 
-En este caso le hemos agregado la propiedad **sudo**, por lo cual este usuarix será un *sudoer* en las máquinas listadas en _allowed_.
+En este caso le hemos agregado la propiedad **sudo**, por lo cual este usuarix será un *sudoer* en las máquinas listadas en _allowed_. Para que esto sea efectivo, el comando a ejecutar es el mismo, **auth.yml**
 
-Para que esto sea efectivo, el comando a ejecutar es el mismo, **auth.yml**
-
-    $ ansible-playbook -D auth.yml
-
-(En este caso le hemos agregado la opcion -D para que muestre un diff de los cambios que realiza)
-
-#TODO degradar privilegios no funciona
+    $ ansible-playbook auth.yml
 
 ### Eliminar un usuarix
 
